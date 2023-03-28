@@ -1,0 +1,38 @@
+{
+  "debug_mode": true,
+  "adaotp":{
+    "apikey":"8307fa8180ae3cd66d5c6cadd3601bce",
+    "service_id": 186,
+    "delay": 20
+  },
+  "indomaret":{
+    "referral_code": "klikidmbir",
+    "address":{
+      "ID": "00000000-0000-0000-0000-000000000000",
+      "AddressTitle": "Utama",
+      "Street": "Luxury",
+      "Street2": "",
+      "Street3": "",
+      "District": "BIREUEN MEUNASAH BLANG",
+      "ZipCode": "24252",
+      "IsDefault": true,
+      "ProvinceId": "d6da0083-6967-4d34-9306-60bd2c31e314",
+      "CityId": 7279,
+      "Region": "6b44636b-0684-48b7-94c0-9aebf4a8daac",
+      "CityLabel": "KOTA JUANG",
+      "ProvinceName": "ACEH",
+      "RegionName": "BIREUEN",
+      "DistrictId": 68361,
+      "ReceiverName": "Artu Sutar",
+      "GoogleAddress": "",
+      "Latitude": 5.203439,
+      "Longitude": 96.693086
+    },
+    "account": [
+      {
+        "username": null,
+        "password": null
+      }
+    ]
+  }
+}
