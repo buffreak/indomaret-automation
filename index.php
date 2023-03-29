@@ -23,7 +23,7 @@ if($pilihan === 1){
                   $activation = $indomaret->userActivation();
                   if($activation){
                     $credential = $indomaret->getLastUserRegistered();
-                    $indomaret->login($credential['email'], $credential['password'])->getAccountDetail()->setAddress();
+                    $indomaret->login($credential['email'], $credential['password'], $credential['device_id'])->getAccountDetail()->setAddress();
                   }
                 }
               }

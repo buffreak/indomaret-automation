@@ -6,7 +6,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 class Indomaret extends Loader {
 
-  protected $adaotp, $phoneNumber, $email, $password, $faker, $getnada, $registerData, $loginData, $jwtToken, $mfpId, $custId;
+  protected $adaotp, $phoneNumber, $email, $password, $faker, $getnada, $registerData, $loginData, $jwtToken, $mfpId, $custId, $deviceId;
 
   public function __construct(){
     parent::__construct();
@@ -104,7 +104,7 @@ class Indomaret extends Loader {
     sleep(1);
     $birth = $this->faker->dateTimeBetween('-30 years', '-15 years')->format('Y-m-d');
     $this->password = str_replace(" ", "", $this->faker->name('male')).$this->faker->regexify('[0-9]{2}');
-    $deviceId = $this->faker->regexify('[a-f0-9]{16}');
+    $this->deviceId = $this->faker->regexify('[a-f0-9]{16}');
     $ipAddress = $this->faker->ipv4();
 
     $this->email = $this->getnada->getEmail();
@@ -121,7 +121,7 @@ class Indomaret extends Loader {
       'Password' => $this->password,
       'ConfirmPassword' => $this->password,
       'ReferrerCode' => $this->config->indomaret->referral_code,
-      'DeviceID' =>  $deviceId,
+      'DeviceID' =>  $this->deviceId,
       'IsNewsLetterSubscriber' => 0,
       'IsSubscribed' => 0,
       'AllowSMS' => false,
@@ -166,22 +166,22 @@ class Indomaret extends Loader {
     );
     $body = json_decode($response['body'], true);
     if($body['statusCode'] === "200" && $body['message'] === "OK"){
-      fwrite(fopen(__DIR__.'/../data/indomaret_results.txt', 'a'), $this->phoneNumber."|".$this->email."|".$this->password.PHP_EOL);
+      fwrite(fopen(__DIR__.'/../data/indomaret_results.txt', 'a'), $this->phoneNumber."|".$this->email."|".$this->password."|".$this->deviceId.PHP_EOL);
       return true;
     }
     return false;
   }
 
   public function getLastUserRegistered(){
-    return ['email' => $this->email, 'phone_number' => $this->phoneNumber, 'password' => $this->password, 'data' => $this->registerData];
+    return ['email' => $this->email, 'phone_number' => $this->phoneNumber, 'password' => $this->password, 'device_id' => $this->deviceId, 'data' => $this->registerData];
   }
 
-  public function login($email, $password){
+  public function login($email, $password, $deviceId){
     sleep(1);
     $param = json_encode(['Email' => $email, 'Password' => $password]);
     $response = Request::curl(
       "POST",
-      "https://prd-api.klikindomaret.com/Account/Customer/Login?isMobile=true&method=APPS&mfp_id=1&deviceID=".$this->faker->regexify('[a-f0-9]{16}')."&deviceName=Chrome%20WebView&device_token=null&districtID=2483&type=REGIST&Location=undefined",
+      "https://prd-api.klikindomaret.com/Account/Customer/Login?isMobile=true&method=APPS&mfp_id=1&deviceID=".$deviceId."&deviceName=Chrome%20WebView&device_token=null&districtID=2483&type=REGIST&Location=undefined",
       $param,
       Request::splitTextFromFile(__DIR__.'/../data/cookie/indomaret_1.txt')
     );
